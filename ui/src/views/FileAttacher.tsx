@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { ALLOWED_TYPES } from "../models/FileFormat";
 import { attachFile } from "../reducers/FileReducer";
 
-export const FileAttacher = () => {
+export const FileAttacherView = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const onAttached = (file: any) => {

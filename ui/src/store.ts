@@ -2,6 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import fileSlice from "./reducers/FileReducer";
 
 const store = configureStore({
+    middleware: (getDefaultMiddleware) => 
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: ['file/attachFile', 'file/setExportResult']
+            }
+        }),
     reducer: {
         file: fileSlice
     }

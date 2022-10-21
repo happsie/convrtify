@@ -1,27 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-enum OutputFormat {
-    PDF,
-    PNG,
-    BASE64
-}
-
-type ExportOptions = {
-    format: OutputFormat; 
-    name: string; 
-}
+import { ExportOptions, ExportResult } from "../models/FileFormat";
 
 type FileState = {
     file?: any; 
     exportOptions: ExportOptions; 
+    exportResult: ExportResult;
 }
 
 const initialState: FileState = {
     file: null,
     exportOptions: {
-        format: OutputFormat.PDF,
-        name: 'exported.pdf'
-    } 
+        mime: "application/text",
+        name: 'exported.txt'
+    },
+    exportResult: {
+        status: "loading",
+        blob: null
+    }
 }
 
 export const fileSlice = createSlice({
@@ -36,10 +31,13 @@ export const fileSlice = createSlice({
         },
         setExportOptions: (state, action: PayloadAction<ExportOptions>) => {
             state.exportOptions = action.payload; 
+        },
+        setExportResult: (state, action: PayloadAction<ExportResult>) => {
+            state.exportResult = action.payload;
         }
     }
 }); 
 
-export const { attachFile, removeFile, setExportOptions } = fileSlice.actions;
+export const { attachFile, removeFile, setExportOptions, setExportResult } = fileSlice.actions;
 
 export default fileSlice.reducer;

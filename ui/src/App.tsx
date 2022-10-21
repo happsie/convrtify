@@ -1,16 +1,21 @@
 import { ToastContainer } from "react-toastify";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { FileAttacher } from "./components/FileAttacher";
-import { FileInfo } from "./components/FileInfo";
+import { FileAttacherView } from "./views/FileAttacher";
+import { FileInfoView } from "./views/FileInfo";
+import { DownloadView } from "./views/Download";
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <FileAttacher />
+    element: <FileAttacherView />
   },
   {
     path: '/info',
-    element: <FileInfo />
+    element: <FileInfoView />
+  }, 
+  {
+    path: '/download',
+    element: <DownloadView />
   }
 ])
 
