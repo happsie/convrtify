@@ -19,7 +19,6 @@ func ConvertFile(c *fiber.Ctx) error {
 		c.Status(http.StatusBadRequest)
 		return fiber.NewError(400, "invalid input content-type")
 	}
-	_ = c.Get("X-EXPORT-NAME")
 	fInput, err := os.CreateTemp("", "convrtify-input-")
 	if err != nil {
 		c.Status(http.StatusBadRequest)
@@ -36,7 +35,6 @@ func ConvertFile(c *fiber.Ctx) error {
 		os.Remove(fInput.Name())
 		os.Remove(fOutput.Name())
 	}()
-
 	// TODO: this causes bug with temp file removal, since it creates a new file.
 	err = c.SaveFile(fileHeader, fInput.Name())
 	if err != nil {
@@ -49,12 +47,13 @@ func ConvertFile(c *fiber.Ctx) error {
 		c.Status(http.StatusBadRequest)
 		return err
 	}
-	b64 := Convert(b, "")
-	err = os.WriteFile(fOutput.Name(), []byte(b64), os.ModePerm)
+	accept := c.Get("Accept")
+	err = Convert(fOutput.Name(), b, accept)
 	if err != nil {
 		c.Status(http.StatusBadRequest)
 		return err
 	}
-	c.Download(fOutput.Name())
+	exportName := c.Get("X-EXPORT-NAME")
+	c.Download(fOutput.Name(), exportName)
 	return nil
 }
