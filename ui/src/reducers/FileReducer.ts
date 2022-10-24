@@ -3,6 +3,7 @@ import { ExportOptions, ExportResult } from "../models/FileFormat";
 
 type FileState = {
     file?: any; 
+    base64?: any;
     exportOptions: ExportOptions; 
     exportResult: ExportResult;
 }
@@ -15,7 +16,6 @@ const initialState: FileState = {
     },
     exportResult: {
         status: "loading",
-        blob: null
     }
 }
 
@@ -26,8 +26,12 @@ export const fileSlice = createSlice({
         attachFile: (state, action: PayloadAction<any>) => {
             state.file = action.payload; 
         },
-        removeFile: (state) => {
-            state.file = null; 
+        attachBase64: (state, action: PayloadAction<string>) => {
+            state.base64 = action.payload;
+        },
+        reset: (state) => {
+            state.file = null;
+            state.base64 = null; 
         },
         setExportOptions: (state, action: PayloadAction<ExportOptions>) => {
             state.exportOptions = action.payload; 
@@ -38,6 +42,6 @@ export const fileSlice = createSlice({
     }
 }); 
 
-export const { attachFile, removeFile, setExportOptions, setExportResult } = fileSlice.actions;
+export const { attachFile, attachBase64,  reset, setExportOptions, setExportResult } = fileSlice.actions;
 
 export default fileSlice.reducer;

@@ -1,5 +1,5 @@
 package convrtify
-
+/*
 import (
 	"encoding/base64"
 	"os"
@@ -38,3 +38,4 @@ func Tobase64(file []byte) []byte {
 	b64 := base64.StdEncoding.EncodeToString(file)
 	return []byte(b64)
 }
+*/

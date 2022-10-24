@@ -1,59 +1,61 @@
 package convrtify
 
 import (
+	"bytes"
+	"encoding/base64"
+	"image/png"
 	"net/http"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 )
 
-func ConvertFile(c *fiber.Ctx) error {
+func ConvertFileToBase64(c *fiber.Ctx) error {
 	fileHeader, err := c.FormFile("file")
 	if err != nil {
 		c.Status(http.StatusBadRequest)
 		return err
 	}
-	fileContentType := c.Get("X-FILE-CONTENT-TYPE")
-	if fileContentType != "image/png" && fileContentType != "application/pdf" && fileContentType != "text/plain" {
-		c.Status(http.StatusBadRequest)
-		return fiber.NewError(400, "invalid input content-type")
-	}
-	fInput, err := os.CreateTemp("", "convrtify-input-")
+	_ = fileHeader.Header.Get("Content-Type")
+	f, err := fileHeader.Open()
 	if err != nil {
-		c.Status(http.StatusBadRequest)
-		return err
+		return fiber.NewError(http.StatusBadRequest)
 	}
-	fOutput, err := os.CreateTemp("", "convrtify-output-")
+	file := make([]byte, fileHeader.Size)
+	_, err = f.Read(file)
 	if err != nil {
-		c.Status(http.StatusBadRequest)
-		return err
+		return fiber.NewError(http.StatusBadRequest)
 	}
-	defer func() {
-		logrus.Infof("removing file %s", fInput.Name())
-		logrus.Infof("removing file %s", fOutput.Name())
-		os.Remove(fInput.Name())
-		os.Remove(fOutput.Name())
-	}()
-	// TODO: this causes bug with temp file removal, since it creates a new file.
-	err = c.SaveFile(fileHeader, fInput.Name())
-	if err != nil {
-		c.Status(http.StatusBadRequest)
-		return err
-	}
-	logrus.Infof("stored file %s", fInput.Name())
-	b, err := os.ReadFile(fInput.Name())
-	if err != nil {
-		c.Status(http.StatusBadRequest)
-		return err
-	}
-	accept := c.Get("Accept")
-	err = Convert(fOutput.Name(), b, accept)
-	if err != nil {
-		c.Status(http.StatusBadRequest)
-		return err
-	}
-	exportName := c.Get("X-EXPORT-NAME")
-	c.Download(fOutput.Name(), exportName)
+	encodedString := base64.StdEncoding.EncodeToString(file)
+	c.SendString(encodedString)
 	return nil
+}
+
+func ConvertBase64ToFile(c *fiber.Ctx) error {
+	b64 := string(c.Body())
+	unbased, err := base64.StdEncoding.DecodeString(b64)
+	if err != nil {
+		logrus.Error(err)
+		return fiber.NewError(http.StatusBadRequest)
+	}
+	img, err := png.Decode(bytes.NewReader(unbased))
+	if err != nil {
+		logrus.Error(err)
+		return fiber.NewError(http.StatusBadRequest)
+	}
+	buf := new(bytes.Buffer)
+	err = png.Encode(buf, img)
+	if err != nil {
+		logrus.Error(err)
+		return fiber.NewError(http.StatusBadRequest)
+	}
+	c.Send(buf.Bytes())
+	return nil
+}
+
+func ConvertFile(c *fiber.Ctx) error {
+	if c.Get("x-unbase") != "" {
+		return ConvertBase64ToFile(c)
+	}
+	return ConvertFileToBase64(c)
 }

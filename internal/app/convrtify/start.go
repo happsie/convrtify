@@ -3,7 +3,9 @@ package convrtify
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 )
 
 func Start() error {
@@ -22,6 +24,11 @@ func Start() error {
 	})
 	app.Use(cors.New())
 	app.Use(recover.New())
+	app.Use(requestid.New())
+
+	app.Use(logger.New(logger.Config{
+		Format: "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
+	}))
 
 	app.Post("/api/convrtify/convert-v1", ConvertFile)
 

@@ -9,15 +9,18 @@ export const FileInfoView = () => {
     const navigate = useNavigate(); 
     const dispatch = useDispatch(); 
     const file = useSelector((state: RootState) => state.file.file);
+    const base64 = useSelector((state: RootState) => state.file.base64);
     const [filename, setFilename] = useState<string>(''); 
     const [fileFormat, setFileFormat] = useState<FileFormat>(ALLOWED_TYPES[0]); 
     useEffect(() => {
-        if (!file) {
+        if (!file && !base64) {
             navigate('/')
             return; 
         }
-        setFilename(file.name.replace(/..{3}$/g, '')); 
-    }, [file]); 
+        if (file) {
+            setFilename(file.name.replace(/..{3}$/g, '')); 
+        }
+    }, [file, base64]); 
 
     const onSelect = (e: any) => {
         e.preventDefault();

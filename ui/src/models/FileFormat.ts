@@ -5,7 +5,14 @@ export type ExportOptions = {
 
 export type ExportResult = {
     status: 'loading' | 'success' | 'error';
-    blob?: any;
+    response?: any; 
+    type?: ExportType; 
+}
+
+export enum ExportType {
+    Base64 = 'base64',
+    PNG = 'PNG',
+    XML = 'XML'
 }
 
 export type FileFormat = {
