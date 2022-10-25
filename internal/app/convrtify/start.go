@@ -30,7 +30,7 @@ func Start() error {
 		Format: "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
 	}))
 
-	app.Post("/api/convrtify/convert-v1", ConvertFile)
+	app.Post("/api/convrtify/encode-v1", Encode)
 
 	return app.Listen(":8080")
 }

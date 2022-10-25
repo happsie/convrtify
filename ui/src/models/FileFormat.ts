@@ -1,3 +1,9 @@
+export enum ConversionMode {
+    From = 'from',
+    To = 'to',
+    None = 'none'
+}
+
 export type ExportOptions = {
     mime: string; 
     name: string; 

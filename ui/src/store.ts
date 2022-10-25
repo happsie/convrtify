@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import encodeSlice from "./reducers/EncodeReducer";
 import fileSlice from "./reducers/FileReducer";
 
 const store = configureStore({
@@ -9,7 +10,8 @@ const store = configureStore({
             }
         }),
     reducer: {
-        file: fileSlice
+        file: fileSlice,
+        encode: encodeSlice
     }
 })
 

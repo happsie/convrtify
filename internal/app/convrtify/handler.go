@@ -53,9 +53,25 @@ func ConvertBase64ToFile(c *fiber.Ctx) error {
 	return nil
 }
 
-func ConvertFile(c *fiber.Ctx) error {
-	if c.Get("x-unbase") != "" {
-		return ConvertBase64ToFile(c)
+func encodeText(text string) string {
+	return base64.StdEncoding.EncodeToString([]byte(text))
+}
+
+type TextBody struct {
+	Text string `json:"text"`
+}
+
+func Encode(c *fiber.Ctx) error {
+	body := TextBody{}
+	err := c.BodyParser(&body)
+	if err != nil {
+		return fiber.NewError(http.StatusBadRequest)
 	}
-	return ConvertFileToBase64(c)
+	base64 := encodeText(body.Text)
+	type Response struct {
+		Encoded string `json:"encoded"`
+	}
+	return c.JSON(Response{
+		Encoded: base64,
+	})
 }

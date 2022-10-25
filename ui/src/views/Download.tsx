@@ -2,11 +2,36 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { ExportResult, ExportType } from "../models/FileFormat";
-import { convertFile, decodeBase64 } from "../requests/convert";
+import { File } from "../reducers/EncodeReducer";
+import { encode } from "../requests/convert";
 import { RootState } from "../store";
 
 export const DownloadView = () => {
+    const dispatch: any = useDispatch(); 
+    const encoded: string | undefined = useSelector((state: RootState) => state.encode.encoded); 
+    const text: string | undefined  = useSelector((state: RootState) => state.encode.text); 
+
+    useEffect(() => {
+        if (text) {
+            dispatch(encode(text)); 
+        }
+    }, []); 
+
+    const EncodedContent = () => (
+        <section>
+            <article>
+                <p>Congrats! Your text/file has been encoded to base64</p>
+                <div>
+                    {encoded}
+                </div>
+            </article>
+        </section>
+    ); 
+
+    return (
+        <EncodedContent />
+    )
+    /*
     const navigate = useNavigate(); 
     const dispatch = useDispatch(); 
     const [render, setRender] = useState(''); 
@@ -54,4 +79,5 @@ export const DownloadView = () => {
             <ToastContainer />
         </React.Fragment>
     )
+    */
 }

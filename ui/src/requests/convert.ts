@@ -1,7 +1,27 @@
 import { ExportOptions, ExportType } from "../models/FileFormat"
+import { setEncodedResponse, Status, updateEncodeStatus } from "../reducers/EncodeReducer";
 import { setExportResult } from "../reducers/FileReducer";
 import HttpClient from "./http"
 
+type EncodeResponse = {
+    encoded: string;
+}
+
+export const encode = (text: string) => {
+    return async (dispatch: any) => {
+        dispatch(updateEncodeStatus(Status.Loading)); 
+        try {
+            const res = await HttpClient.post<EncodeResponse>('/api/convrtify/encode-v1', {
+                text: text
+            });
+            dispatch(setEncodedResponse(res.data.encoded))
+        } catch (error) {
+            dispatch(updateEncodeStatus(Status.Error)); 
+        }
+    }
+}
+
+/*
 export const decodeBase64 = (base64: string, exportOptions: ExportOptions) => {
     return async (dispatch: any) => {
         dispatch(setExportResult({ 
@@ -52,3 +72,4 @@ export const convertFile = (file: any, exportOptions: ExportOptions) => {
         }
     }
 };
+*/
