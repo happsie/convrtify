@@ -9,7 +9,7 @@ import { attachFile, attachText } from "../reducers/EncodeReducer";
 export const StartView = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [mode, setMode] = useState<ConversionMode>(ConversionMode.From);
+    const [mode, setMode] = useState<ConversionMode>(ConversionMode.None);
   
     const onFileAttached = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) {
@@ -26,7 +26,7 @@ export const StartView = () => {
         if (!e.target.value) {
             return; 
         }
-        if (mode === ConversionMode.To) {
+        if (mode === ConversionMode.Encode) {
             dispatch(attachText(e.target.value));
             return; 
         }
@@ -34,7 +34,7 @@ export const StartView = () => {
     }; 
 
     const onNext = (mode: ConversionMode) => {
-        if (mode === ConversionMode.To) {
+        if (mode === ConversionMode.Encode) {
             navigate('/encoded');
             return; 
         }
@@ -50,7 +50,7 @@ export const StartView = () => {
             <aside>
                 <p>Attach a file or paste your text you'd like to encode</p>
             </aside>
-            <button onClick={() => onNext(ConversionMode.To)}>Encode</button>
+            <button onClick={() => onNext(ConversionMode.Encode)}>Encode</button>
         </article>
     ); 
 
@@ -60,22 +60,39 @@ export const StartView = () => {
             <aside>
                 <p>Paste your base64 string and hit decode!</p>
             </aside>
-            <button onClick={() => onNext(ConversionMode.From)}>Decode</button>
+            <button onClick={() => onNext(ConversionMode.Decode)}>Decode</button>
         </article>
     ); 
+
+    const RenderMode = () => {
+        if (mode === ConversionMode.None) {
+            return null; 
+        }
+        if (mode === ConversionMode.Encode) {
+            return <Encode />;
+        }
+        if (mode === ConversionMode.Decode) {
+            return <Decode />;
+        }
+        return null;
+    }
 
     return (
         <section about="convrtify decode or encode" id="start">
             <header>
-                <h1>Convert Your File</h1>
-                <h3>Fast. Simple. Secure</h3>
+                <h1>Convrtify</h1>
+                <hr />
+                <p>Base64 encoder/decoder</p>
+                <em>Fast - Simple - Secure</em>
             </header>
-            <div>
+            <div id="conversion-mode">
                 <h2>Choose conversion method</h2>
-                <button onClick={() => setMode(ConversionMode.To)}>To Base64</button>
-                <button onClick={() => setMode(ConversionMode.From)}>From Base64</button>
+                <div>
+                    <button onClick={() => setMode(ConversionMode.Encode)}>Encode</button>
+                    <button onClick={() => setMode(ConversionMode.Decode)}>Decode</button>
+                </div>
             </div>
-            { mode === ConversionMode.To ? <Encode /> : <Decode /> }
+            <RenderMode />
         </section>
     );
 }

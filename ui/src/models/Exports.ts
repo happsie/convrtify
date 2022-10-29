@@ -6,8 +6,9 @@ export enum Status {
 }
 
 export enum ConversionMode {
-    From = 'from',
-    To = 'to'
+    Decode = 'decode',
+    Encode = 'encode',
+    None = 'none'
 }
 
 export enum ExportType {
