@@ -1,21 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export enum Mime {
-    PDF = 'application/pdf',
-    PNG = 'image/png',
-    XML = 'application/xml'
-}
-
 export enum Status {
     Idle = 'Idle',
     Loading = 'Loading',
     Success = 'Success',
     Error = 'Error'
-}
-
-export type File = {
-    file: any; 
-    mime: Mime; 
 }
 
 type EncodeState = {

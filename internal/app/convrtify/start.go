@@ -31,6 +31,7 @@ func Start() error {
 	}))
 
 	app.Post("/api/convrtify/encode-v1", Encode)
+	app.Post("/api/convrtify/decode-v1", Decode)
 
 	return app.Listen(":8080")
 }

@@ -5,7 +5,7 @@ import { ALLOWED_TYPES, FileFormat } from "../models/FileFormat";
 import { setExportOptions } from "../reducers/FileReducer";
 import { RootState } from "../store";
 
-export const FileInfoView = () => {
+export const OutputSettingsView = () => {
     const navigate = useNavigate(); 
     const dispatch = useDispatch(); 
     const file = useSelector((state: RootState) => state.file.file);

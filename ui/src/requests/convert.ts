@@ -7,7 +7,21 @@ type EncodeResponse = {
     encoded: string;
 }
 
-export const encode = (text: string) => {
+export const encodeFile = (file: File) => {
+    return async (dispatch: any) => {
+        dispatch(updateEncodeStatus(Status.Loading)); 
+        try {
+            const data: FormData = new FormData(); 
+            data.append("file", file); 
+            const res = await HttpClient.post<EncodeResponse>('/api/convrtify/encode-v1', data);
+            dispatch(setEncodedResponse(res.data.encoded));
+        } catch (error) {
+            dispatch(updateEncodeStatus(Status.Error)); 
+        }
+    };
+};
+
+export const encodeText = (text: string) => {
     return async (dispatch: any) => {
         dispatch(updateEncodeStatus(Status.Loading)); 
         try {
@@ -18,8 +32,8 @@ export const encode = (text: string) => {
         } catch (error) {
             dispatch(updateEncodeStatus(Status.Error)); 
         }
-    }
-}
+    };
+};
 
 /*
 export const decodeBase64 = (base64: string, exportOptions: ExportOptions) => {
