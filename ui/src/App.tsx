@@ -1,8 +1,8 @@
 import { ToastContainer } from "react-toastify";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { StartView } from "./views/FileAttacher";
-import { OutputSettingsView } from "./views/FileInfo";
-import { DownloadView } from "./views/Download";
+import { StartView } from "./views/Start";
+import { EncodedView } from "./views/Encoded";
+import { DecodedView } from "./views/Decoded";
 
 const router = createBrowserRouter([
   {
@@ -10,12 +10,12 @@ const router = createBrowserRouter([
     element: <StartView />
   },
   {
-    path: '/info',
-    element: <OutputSettingsView />
-  }, 
+    path: '/encoded',
+    element: <EncodedView />
+  },
   {
-    path: '/download',
-    element: <DownloadView />
+    path: '/decoded',
+    element: <DecodedView />
   }
 ])
 

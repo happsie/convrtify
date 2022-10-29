@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import encodeSlice from "./reducers/EncodeReducer";
-import fileSlice from "./reducers/FileReducer";
+import decodeSlice from "./reducers/DecodeReducer";
 
 const store = configureStore({
     middleware: (getDefaultMiddleware) => 
@@ -10,8 +10,8 @@ const store = configureStore({
             }
         }),
     reducer: {
-        file: fileSlice,
-        encode: encodeSlice
+        encode: encodeSlice,
+        decode: decodeSlice
     }
 })
 

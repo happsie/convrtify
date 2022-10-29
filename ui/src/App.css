@@ -1,1 +1,6 @@
 @import 'react-toastify/dist/ReactToastify.css';
+
+* {
+    background-color: darkslategrey;
+    color: whitesmoke;
+}
