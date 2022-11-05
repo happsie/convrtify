@@ -1,48 +1,158 @@
-@import 'react-toastify/dist/ReactToastify.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+    --main-bg-color: black;
+    --secondary-bg-color: #00A881;
+    --text-color: whitesmoke;
+    --shadow-color: #00A881;
+    --border-color: #00A881;
+    --font: 'Poppins', sans-serif;
+}
 
 * {
-    font-family: 'Roboto', sans-serif;
-    background-color: #3F72AF;
-    color: #DBE2EF;
+    font-family: var(--font);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--main-bg-color);
+    height: 100vh;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-bottom: 0;
+}
+
+p {
+    margin-top: 0;
 }
 
 main {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-#start {
-    min-width: 40%;
+nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(15, 15, 15);
+    align-items: baseline;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
-#start > header {
-    text-align: center;
+nav>h1 {
+    margin: 0;
+    padding: 0;
 }
 
-#start > header > h1 {
-    font-size: 40pt;
-    margin-bottom: 0;
-}
-
-#conversion-mode { 
-    text-align: center;
-}
-
-#conversion-mode > div {
+nav>ul {
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
 }
 
-button {
-    margin-left: 1em;
-    margin-right: 1em;
-    outline: 0;
-    color: #112D4E;
-    background-color: transparent;
-    border: 2px solid #112D4E;
+nav>ul>li {
+    padding: .5em;
+}
+
+li {
+    margin: .3em;
+    list-style-type: none;
+    text-decoration: none;
     border-radius: 10px;
-    padding: .8rem;
-    font-weight: 500;
+    transition: all .1s ease-in-out;
+}
+
+li:hover {
+    background-color: var(--secondary-bg-color);
+}
+
+section,
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section {
+    flex-grow: 1;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-round;
+}
+
+article>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label[for="upload"] {
+    color: var(--text-color);
+    padding: .4em;
+    border-radius: 10px;
+    border: 2px solid var(--border-color);
+    background-color: var(--main-bg-color);
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    margin: .5em;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+}
+
+label[for="upload"]:hover {
+    transform: scale(1.05);
+    transition-timing-function: linear;
+}
+
+textarea {
+    font-family: (--font);
+    margin: .5em;
+    background-color: var(--main-bg-color);
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    outline: 0;
+    text-decoration: none;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: whitesmoke;
+    padding: .5em;
+    resize: none;
+    transition: all .1s ease-in-out;
+}
+
+textarea:hover {
+    transform: scale(1.01);
+}
+
+button {
+    margin-top: 1em;
+    color: var(--text-color);
+    padding: .8em;
+    border-radius: 10px;
+    border: 2px solid var(--border-color);
+    background-color: var(--main-bg-color);
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    margin: .5em;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.05);
 }

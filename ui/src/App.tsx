@@ -22,9 +22,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="App">
-      <main role="main">
-        <RouterProvider router={router} />
-      </main>
+      <RouterProvider router={router} />
       <ToastContainer />
     </div>
   )
