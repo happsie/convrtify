@@ -9,10 +9,13 @@ export const EncodedView = () => {
     const dispatch: any = useDispatch();
     const encoded: string | undefined = useSelector((state: RootState) => state.encode.encoded);
     const text: string | undefined = useSelector((state: RootState) => state.encode.text);
-    const file: File = useSelector((state: RootState) => state.encode.file);
+    const file: File | undefined = useSelector((state: RootState) => state.encode.file);
 
     const encode = () => new Promise<any>((resolve, reject) => {
         const reader = new FileReader();
+        if (!file) {
+            return; 
+        }
         reader.readAsBinaryString(file);
         reader.onload = () => resolve(reader.result);
         reader.onerror = (error) => reject(error);
